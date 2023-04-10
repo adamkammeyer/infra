@@ -9,3 +9,9 @@
         - system
         - directories
         - flatpak
+
+    - name: Install Software
+      include_tasks: tasks/software.yml
+      tags:
+        - base
+        - vscode

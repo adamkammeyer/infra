@@ -3,3 +3,7 @@
   tags:
     - base
 
+- name: Install VS Code
+  include_tasks: vscode.yml
+  tags:
+    - vscode
