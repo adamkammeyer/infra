@@ -1,0 +1,14 @@
+- name: install base software
+  dnf:
+    name:
+      - gnome-tweaks
+      - vim
+      - libgnome-keyring
+      - poppler-utils
+      - tlp
+      - ffmpeg-free
+    update_cache: yes
+    state: latest
+  tags:
+    - base
+  become: yes
