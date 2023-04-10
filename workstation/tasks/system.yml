@@ -2,6 +2,7 @@
   dnf:
     name: "*"
     state: latest
+  become: yes
   tags:
     - system
 
@@ -19,6 +20,7 @@
     name: flathub
     state: absent
     method: system
+  become: yes
   tags:
     - flatpak
     - system
@@ -28,6 +30,7 @@
     name: flathub
     state: present
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+  become: yes
   tags:
     - flatpak
     - system
