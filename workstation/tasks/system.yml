@@ -41,17 +41,17 @@
 
 - name: Check if Nextcloud Documents directory exists
   stat:
-    path: "/home/akammeyer/Nextcloud/Documents"
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Documents"
   register: result
   tags:
     - directories
 
 - name: Create Nextcloud Documents if it doesn't exist
   file:
-    path: "/home/akammeyer/Nextcloud/Documents"
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Documents"
     state: directory
-    owner: akammeyer
-    group: akammeyer
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    group: "{{ ansible_facts['env']['USER'] }}"
     mode: 0775
   when: result.stat.exists == false
   tags:
@@ -59,7 +59,7 @@
 
 - name: Remove Documents directory from Home
   file:
-    path: "/home/akammeyer/Documents"
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Documents"
     state: absent
   register: removal
   tags:
@@ -67,26 +67,26 @@
 
 - name: Create Documents symlink in Home
   file:
-    path: "/home/akammeyer/Documents"
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Documents"
     state: link
-    src: "/home/akammeyer/Nextcloud/Documents"
+    src: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Documents"
   become: yes
   tags:
     - directories
 
 - name: Check if Nextcloud Photos directory exists
   stat:
-    path: "/home/akammeyer/Nextcloud/Photos"
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Photos"
   register: result
   tags:
     - directories
 
 - name: Create Nextcloud Photos if it doesn't exist
   file:
-    path: "/home/akammeyer/Nextcloud/Photos"
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Photos"
     state: directory
-    owner: akammeyer
-    group: akammeyer
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    group: "{{ ansible_facts['env']['USER'] }}"
     mode: 0775
   when: result.stat.exists == false
   tags:
@@ -94,7 +94,7 @@
 
 - name: Remove Pictures directory from Home
   file:
-    path: "/home/akammeyer/Pictures"
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Pictures"
     state: absent
   register: removal
   tags:
@@ -102,16 +102,16 @@
 
 - name: Create Pictures symlink in Home
   file:
-    path: "/home/akammeyer/Pictures"
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Pictures"
     state: link
-    src: "/home/akammeyer/Nextcloud/Photos"
+    src: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Photos"
   become: yes
   tags:
     - directories
   
 - name: Create Apps directory if necessary
   file:
-    path: /home/akammeyer/Apps
+    path: /home/{{ ansible_facts['env']['USER'] }}/Apps
     state: directory
     mode: '0755'
   tags:

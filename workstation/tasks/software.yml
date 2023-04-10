@@ -1,10 +1,10 @@
 - name: Install base software
-  include_tasks: base.yml
+  include_tasks: tasks/software/base.yml
   tags:
     - base
 
 - name: Install VS Code
-  include_tasks: vscode.yml
+  include_tasks: tasks/software/vscode.yml
   tags:
     - vscode
 
