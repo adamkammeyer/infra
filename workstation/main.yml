@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: no
+  vars:
+  tasks:
+    - name: Prepare System
+      include_tasks: tasks/system.yml
+      tags:
+        - system
+        - directories
+        - flatpak

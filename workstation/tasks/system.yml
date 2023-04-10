@@ -1,0 +1,123 @@
+- name: Update system
+  dnf:
+    name: "*"
+    state: latest
+  tags:
+    - system
+
+- name: Ensure flathub flatpak repository is removed for the user
+  community.general.flatpak_remote:
+    name: flathub
+    state: absent
+    method: user
+  tags:
+    - flatpak
+    - system
+
+- name: Ensure flathub flatpak repository is removed for the system
+  community.general.flatpak_remote:
+    name: flathub
+    state: absent
+    method: system
+  tags:
+    - flatpak
+    - system
+
+- name: Add the flathub flatpak repository remote to the user installation
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+  tags:
+    - flatpak
+    - system
+
+- name: Ensure the flathub repository is enabled
+  become: yes
+  command: flatpak remote-modify --enable flathub
+  tags:
+    - flatpak
+    - system
+
+- name: Check if Nextcloud Documents directory exists
+  stat:
+    path: "/home/akammeyer/Nextcloud/Documents"
+  register: result
+  tags:
+    - directories
+
+- name: Create Nextcloud Documents if it doesn't exist
+  file:
+    path: "/home/akammeyer/Nextcloud/Documents"
+    state: directory
+    owner: akammeyer
+    group: akammeyer
+    mode: 0775
+  when: result.stat.exists == false
+  tags:
+    - directories
+
+- name: Remove Documents directory from Home
+  file:
+    path: "/home/akammeyer/Documents"
+    state: absent
+  register: removal
+  tags:
+    - directories
+
+- name: Create Documents symlink in Home
+  file:
+    path: "/home/akammeyer/Documents"
+    state: link
+    src: "/home/akammeyer/Nextcloud/Documents"
+  become: yes
+  tags:
+    - directories
+
+- name: Check if Nextcloud Photos directory exists
+  stat:
+    path: "/home/akammeyer/Nextcloud/Photos"
+  register: result
+  tags:
+    - directories
+
+- name: Create Nextcloud Photos if it doesn't exist
+  file:
+    path: "/home/akammeyer/Nextcloud/Photos"
+    state: directory
+    owner: akammeyer
+    group: akammeyer
+    mode: 0775
+  when: result.stat.exists == false
+  tags:
+    - directories
+
+- name: Remove Pictures directory from Home
+  file:
+    path: "/home/akammeyer/Pictures"
+    state: absent
+  register: removal
+  tags:
+    - directories
+
+- name: Create Pictures symlink in Home
+  file:
+    path: "/home/akammeyer/Pictures"
+    state: link
+    src: "/home/akammeyer/Nextcloud/Photos"
+  become: yes
+  tags:
+    - directories
+  
+- name: Create Apps directory if necessary
+  file:
+    path: /home/akammeyer/Apps
+    state: directory
+    mode: '0755'
+  tags:
+    - directories
+
+
+
+
+
