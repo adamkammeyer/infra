@@ -3,6 +3,7 @@
   become: no
   vars:
   tasks:
+
     - name: Prepare System
       include_tasks: tasks/system.yml
       tags:
@@ -15,3 +16,4 @@
       tags:
         - base
         - vscode
+        - starship

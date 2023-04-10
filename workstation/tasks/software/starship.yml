@@ -1,0 +1,19 @@
+- name: Install Starship.rs
+  include_role:
+    name: andrewrothstein.starship
+    apply:
+      tags:
+        - starship
+  vars:
+    starship_ver: v1.12.0
+  tags:
+    - starship
+
+- name: Add Starship to .bashrc
+  ansible.builtin.lineinfile:
+    path: "/home/{{ ansible_facts['env']['USER'] }}/.bashrc"
+    search_string: 'eval "$(starship init bash)"'
+    line: 'eval "$(starship init bash)"'
+  tags: 
+    - starship
+

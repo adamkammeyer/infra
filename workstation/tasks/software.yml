@@ -7,3 +7,8 @@
   include_tasks: vscode.yml
   tags:
     - vscode
+
+- name: Install Starship
+  include_tasks: tasks/software/starship.yml
+  tags:
+    - starship
