@@ -1,0 +1,25 @@
+- name: Fetch the latest Bitwarden AppImage
+  get_url:
+    url: "https://vault.bitwarden.com/download/?app=desktop&platform=linux&variant=appimage"
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/Apps/Bitwarden.AppImage"
+    mode: 'u+rwx'
+  tags:
+    - software
+    - bitwarden
+
+- name: Copy Bitwarden logo for desktop file entry
+  copy:
+    src: "files/bitwarden-logo.png"
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/Apps/"
+    mode: '0644'
+  tags:
+    - software
+    - bitwarden
+
+- name: Add Bitwarden desktop file entry
+  template:
+    src: templates/software/bitwarden.desktop.j2
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/.local/share/applications/bitwarden.desktop"
+  tags:
+    - software
+    - bitwarden

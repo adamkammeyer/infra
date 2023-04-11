@@ -12,3 +12,8 @@
   include_tasks: tasks/software/starship.yml
   tags:
     - starship
+
+- name: Install Bitwarden
+  include_tasks: tasks/software/bitwarden.yml
+  tags:
+    - bitwarden
