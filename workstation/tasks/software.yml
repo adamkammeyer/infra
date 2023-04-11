@@ -22,3 +22,8 @@
   include_tasks: tasks/software/nextcloud.yml
   tags:
     - nextcloud
+
+- name: Install Calibre
+  include_tasks: tasks/software/calibre.yml
+  tags:
+    - calibre
