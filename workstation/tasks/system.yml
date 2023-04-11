@@ -42,6 +42,11 @@
     - flatpak
     - system
 
+- name: Customize GNOME Desktop
+  include_tasks: tasks/system/gnome.yml
+  tags:
+    - gnome
+
 - name: Check if Nextcloud Documents directory exists
   stat:
     path: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Documents"
