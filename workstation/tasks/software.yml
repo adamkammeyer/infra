@@ -17,3 +17,8 @@
   include_tasks: tasks/software/bitwarden.yml
   tags:
     - bitwarden
+
+- name: Install Nextcloud
+  include_tasks: tasks/software/nextcloud.yml
+  tags:
+    - nextcloud
