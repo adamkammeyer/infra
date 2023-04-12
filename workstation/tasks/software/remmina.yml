@@ -1,0 +1,8 @@
+- name: Install the Remmina package from flathub for current user
+  flatpak:
+    name: org.remmina.Remmina
+    state: present
+    method: system
+  tags:
+    - software
+    - remmina

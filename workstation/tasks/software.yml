@@ -27,3 +27,8 @@
   include_tasks: tasks/software/calibre.yml
   tags:
     - calibre
+
+- name: Install Remmina
+  include_tasks: tasks/software/remmina.yml
+  tags:
+    - remmina
