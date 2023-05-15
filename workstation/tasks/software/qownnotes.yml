@@ -1,0 +1,9 @@
+- name: Install the QOwnNotes package from flathub
+  flatpak:
+    name: org.qownnotes.QOwnNotes
+    state: present
+    method: system
+  tags:
+    - software
+    - qownnotes
+  when: ansible_facts['distribution'] == "Fedora"

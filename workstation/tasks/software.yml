@@ -37,3 +37,8 @@
   include_tasks: tasks/software/syncthing.yml
   tags:
     - syncthing
+
+- name: Install QOwnNotes
+  include_tasks: tasks/software/qownnotes.yml
+  tags:
+    - qownnotes
