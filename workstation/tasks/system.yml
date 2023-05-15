@@ -1,3 +1,9 @@
+- name: Set a hostname
+  ansible.builtin.hostname:
+    name: adam-desktop
+  tags:
+    - system
+
 - name: Update system
   dnf:
     name: "*"
