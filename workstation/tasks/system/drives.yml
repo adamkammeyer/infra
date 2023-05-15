@@ -1,0 +1,21 @@
+- name: Create 4TB mount folder
+  ansible.builtin.file:
+    path: /media/drives/external-4tb
+    state: directory
+    mode: '0755'
+  become: yes
+  tags:
+    - system
+    - drives
+
+- name: Mount 4TB USB drive
+  ansible.posix.mount:
+    path: /media/drives/external-4tb
+    src: UUID=c36b7532-f2c3-42b2-b23e-627d9afba39b
+    fstype: auto
+    opts: nosuid,nodev,nofail,x-gvfs-show
+    state: mounted
+  become: yes
+  tags:
+    - system
+    - drives

@@ -11,6 +11,7 @@
         - directories
         - flatpak
         - gnome
+        - drives
 
     - name: Install Software
       include_tasks: tasks/software.yml
