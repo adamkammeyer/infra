@@ -32,3 +32,8 @@
   include_tasks: tasks/software/remmina.yml
   tags:
     - remmina
+
+- name: Install Syncthing
+  include_tasks: tasks/software/syncthing.yml
+  tags:
+    - syncthing
