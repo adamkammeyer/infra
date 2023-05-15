@@ -13,6 +13,7 @@
     - org.gnome.desktop.wm.keybindings switch-applications-backward []
     - org.gnome.desktop.wm.keybindings switch-windows "['<Super>Tab', '<Alt>Tab']"
     - org.gnome.desktop.wm.keybindings switch-windows-backward "['<Shift><Super>Tab', '<Shift><Alt>Tab']"
+    - org.gnome.desktop.interface color-scheme 'prefer-dark'
   tags:
     - gnome
 
