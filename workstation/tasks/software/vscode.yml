@@ -6,8 +6,9 @@
   become: yes
   tags: 
     - vscode
+  when: ansible_facts['distribution'] == "Fedora"
 
-- name: Install VS Code
+- name: Install VS Code on Fedora
   dnf:
     name:
       - code
@@ -16,3 +17,12 @@
   tags:
     - vscode
   become: yes
+  when: ansible_facts['distribution'] == "Fedora"
+  
+- name: Install VS Code on Ubuntu
+  apt:
+    deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+  become: yes
+  tags:
+    - vscode
+  when: ansible_facts['distribution'] == "Ubuntu"

@@ -1,5 +1,5 @@
 - name: Install Syncthing
-  dnf:
+  package:
     name:
       - syncthing
     update_cache: yes

@@ -5,7 +5,7 @@
     - system
 
 - name: Update system
-  dnf:
+  package:
     name: "*"
     state: latest
   become: yes
@@ -19,7 +19,7 @@
     method: user
   tags:
     - flatpak
-    - system
+  when: ansible_facts['distribution'] == "Fedora"
 
 - name: Ensure flathub flatpak repository is removed for the system
   community.general.flatpak_remote:
@@ -29,7 +29,7 @@
   become: yes
   tags:
     - flatpak
-    - system
+  when: ansible_facts['distribution'] == "Fedora"
 
 - name: Add the flathub flatpak repository remote to the user installation
   community.general.flatpak_remote:
@@ -39,14 +39,14 @@
   become: yes
   tags:
     - flatpak
-    - system
+  when: ansible_facts['distribution'] == "Fedora"
 
 - name: Ensure the flathub repository is enabled
   become: yes
   command: flatpak remote-modify --enable flathub
   tags:
     - flatpak
-    - system
+  when: ansible_facts['distribution'] == "Fedora"
 
 - name: Customize GNOME Desktop
   include_tasks: tasks/system/gnome.yml
