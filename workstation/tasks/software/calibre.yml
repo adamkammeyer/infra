@@ -1,0 +1,8 @@
+- name: Install the Calibre package from flathub
+  flatpak:
+    name: com.calibre_ebook.calibre
+    state: present
+    method: system
+  tags:
+    - software
+    - calibre

@@ -1,0 +1,44 @@
+- name: Install base software
+  include_tasks: tasks/software/base.yml
+  tags:
+    - base
+
+- name: Install VS Code
+  include_tasks: tasks/software/vscode.yml
+  tags:
+    - vscode
+
+- name: Install Starship
+  include_tasks: tasks/software/starship.yml
+  tags:
+    - starship
+
+- name: Install Bitwarden
+  include_tasks: tasks/software/bitwarden.yml
+  tags:
+    - bitwarden
+
+- name: Install Nextcloud
+  include_tasks: tasks/software/nextcloud.yml
+  tags:
+    - nextcloud
+
+- name: Install Calibre
+  include_tasks: tasks/software/calibre.yml
+  tags:
+    - calibre
+
+- name: Install Remmina
+  include_tasks: tasks/software/remmina.yml
+  tags:
+    - remmina
+
+- name: Install Syncthing
+  include_tasks: tasks/software/syncthing.yml
+  tags:
+    - syncthing
+
+- name: Install QOwnNotes
+  include_tasks: tasks/software/qownnotes.yml
+  tags:
+    - qownnotes

@@ -1,0 +1,38 @@
+- name: Set Gnome settings
+  command: "gsettings set  {{ item }}"
+  loop:
+    - org.gnome.desktop.peripherals.touchpad natural-scroll false
+    - org.gnome.desktop.peripherals.touchpad speed 0.23496240601503748
+    - org.gnome.settings-daemon.plugins.color night-light-enabled true
+    - org.gnome.desktop.interface clock-format '12h'
+    - org.gnome.nautilus.preferences default-folder-viewer 'list-view'
+    - org.gnome.desktop.interface clock-show-date true
+    - org.gnome.desktop.peripherals.touchpad tap-to-click true
+    - org.gtk.gtk4.Settings.FileChooser sort-directories-first true
+    - org.gnome.desktop.wm.keybindings switch-applications []
+    - org.gnome.desktop.wm.keybindings switch-applications-backward []
+    - org.gnome.desktop.wm.keybindings switch-windows "['<Super>Tab', '<Alt>Tab']"
+    - org.gnome.desktop.wm.keybindings switch-windows-backward "['<Shift><Super>Tab', '<Shift><Alt>Tab']"
+    - org.gnome.desktop.interface color-scheme 'prefer-dark'
+    - org.gnome.settings-daemon.plugins.power power-button-action 'interactive'
+    - org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+    - org.gnome.TextEditor restore-session false
+  tags:
+    - gnome
+
+- name: find default terminal profile
+  command: gsettings get org.gnome.Terminal.ProfilesList default
+  register: terminal_profile
+  tags:
+    - gnome
+
+- name: Set terminal preferences
+  command: "gsettings set  {{ item }}"
+  vars:
+    - regex: "[`'\"]"
+    - replace: ""
+  loop:
+    - "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ terminal_profile.stdout|regex_replace(regex, replace) }}/ default-size-columns 120"
+    - "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:{{ terminal_profile.stdout|regex_replace(regex, replace) }}/ default-size-rows 36"
+  tags:
+    - gnome

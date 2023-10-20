@@ -1,0 +1,4 @@
+---
+roles:
+  - name: andrewrothstein.starship
+    version: v1.1.2

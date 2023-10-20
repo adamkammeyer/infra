@@ -1,0 +1,28 @@
+- name: Copy VS Code repo file
+  copy:
+    src: files/vscode.repo
+    dest: /etc/yum.repos.d/vscode.repo
+    mode: '0644'
+  become: yes
+  tags: 
+    - vscode
+  when: ansible_facts['distribution'] == "Fedora"
+
+- name: Install VS Code on Fedora
+  dnf:
+    name:
+      - code
+    update_cache: yes
+    state: latest
+  tags:
+    - vscode
+  become: yes
+  when: ansible_facts['distribution'] == "Fedora"
+  
+- name: Install VS Code on Ubuntu
+  apt:
+    deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+  become: yes
+  tags:
+    - vscode
+  when: ansible_facts['distribution'] == "Ubuntu"

@@ -1,0 +1,28 @@
+- name: Install the QOwnNotes package from flathub
+  flatpak:
+    name: org.qownnotes.QOwnNotes
+    state: present
+    method: system
+  tags:
+    - software
+    - qownnotes
+  when: ansible_facts['distribution'] == "Fedora"
+
+- name: Add QOwnNotes PPA
+  ansible.builtin.apt_repository:
+    repo: ppa:pbek/qownnotes
+  tags:
+    - software
+    - qownnotes
+  become: yes
+  when: ansible_facts['distribution'] == "Ubuntu"
+
+- name: Install QOwnNotes from PPA
+  apt:
+    name:
+      - qownnotes
+  become: yes
+  tags:
+    - software
+    - qownnotes
+  when: ansible_facts['distribution'] == "Ubuntu"

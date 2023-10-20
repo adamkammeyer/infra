@@ -1,0 +1,35 @@
+- name: install base software
+  dnf:
+    name:
+      - git
+      - gnome-tweaks
+      - vim
+      - libgnome-keyring
+      - poppler-utils
+      - tlp
+      - ffmpeg-free
+      - gnome-extensions-app
+      - gnome-shell-extension-appindicator
+      - gstreamer1-plugin-openh264
+    update_cache: yes
+    state: latest
+  tags:
+    - base
+  become: yes
+  when: ansible_facts['distribution'] == "Fedora"
+  
+- name: install base software
+  apt:
+    name:
+      - git
+      - gnome-tweaks
+      - vim
+      - libpam-gnome-keyring
+      - poppler-utils
+      - libfuse2
+    update_cache: yes
+    state: latest
+  tags:
+    - base
+  become: yes
+  when: ansible_facts['distribution'] == "Ubuntu"

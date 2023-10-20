@@ -1,0 +1,113 @@
+- name: Install Nextcloud Client AppImage
+  get_url:
+    url: "https://download.nextcloud.com/desktop/releases/Linux/latest"
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/Apps/Nextcloud.AppImage"
+    mode: 'u+rwx'
+  tags:
+    - software
+    - nextcloud
+
+- name: Copy Nextcloud logo for desktop file entry
+  copy:
+    src: "files/nextcloud-logo.png"
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/Apps/"
+    mode: '0644'
+  tags:
+    - software
+    - nextcloud
+
+- name: Add Nextcloud desktop file entry
+  template:
+    src: templates/software/nextcloud.desktop.j2
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/.local/share/applications/nextcloud.desktop"
+  tags:
+    - software
+    - nextcloud
+
+- name: Autostart Nextcloud
+  template:
+    src: "templates/software/nextcloud.desktop.j2"
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/.config/autostart/nextcloud.desktop"
+    mode: '0644'
+  tags:
+    - software
+    - nextcloud
+
+- name: Check if Nextcloud Documents directory exists
+  stat:
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Documents"
+  register: result
+  tags:
+    - software
+    - nextcloud
+
+- name: Create Nextcloud Documents if it doesn't exist
+  file:
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Documents"
+    state: directory
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    group: "{{ ansible_facts['env']['USER'] }}"
+    mode: 0775
+  when: result.stat.exists == false
+  tags:
+    - software
+    - nextcloud
+
+- name: Remove Documents directory from Home
+  file:
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Documents"
+    state: absent
+  register: removal
+  tags:
+    - software
+    - nextcloud
+
+- name: Create Documents symlink in Home
+  file:
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Documents"
+    state: link
+    src: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Documents"
+  become: yes
+  tags:
+    - software
+    - nextcloud
+
+- name: Check if Nextcloud Photos directory exists
+  stat:
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Photos"
+  register: result
+  tags:
+    - software
+    - nextcloud
+
+- name: Create Nextcloud Photos if it doesn't exist
+  file:
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Photos"
+    state: directory
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    group: "{{ ansible_facts['env']['USER'] }}"
+    mode: 0775
+  when: result.stat.exists == false
+  tags:
+    - software
+    - nextcloud
+
+- name: Remove Pictures directory from Home
+  file:
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Pictures"
+    state: absent
+  register: removal
+  tags:
+    - software
+    - nextcloud
+
+- name: Create Pictures symlink in Home
+  file:
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Pictures"
+    state: link
+    src: "/home/{{ ansible_facts['env']['USER'] }}/Nextcloud/Photos"
+  become: yes
+  tags:
+    - software
+    - nextcloud
+ 

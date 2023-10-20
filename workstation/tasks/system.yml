@@ -1,0 +1,76 @@
+- name: Set a hostname
+  ansible.builtin.hostname:
+    name: adam-desktop
+  tags:
+    - system
+
+- name: Update system
+  package:
+    name: "*"
+    state: latest
+  become: yes
+  tags:
+    - system
+
+- name: Ensure flathub flatpak repository is removed for the user
+  community.general.flatpak_remote:
+    name: flathub
+    state: absent
+    method: user
+  tags:
+    - flatpak
+  when: ansible_facts['distribution'] == "Fedora"
+
+- name: Ensure flathub flatpak repository is removed for the system
+  community.general.flatpak_remote:
+    name: flathub
+    state: absent
+    method: system
+  become: yes
+  tags:
+    - flatpak
+  when: ansible_facts['distribution'] == "Fedora"
+
+- name: Add the flathub flatpak repository remote to the user installation
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+  become: yes
+  tags:
+    - flatpak
+  when: ansible_facts['distribution'] == "Fedora"
+
+- name: Ensure the flathub repository is enabled
+  become: yes
+  command: flatpak remote-modify --enable flathub
+  tags:
+    - flatpak
+  when: ansible_facts['distribution'] == "Fedora"
+
+- name: Customize GNOME Desktop
+  include_tasks: tasks/system/gnome.yml
+  tags:
+    - gnome
+ 
+- name: Create Apps directory if necessary
+  file:
+    path: /home/{{ ansible_facts['env']['USER'] }}/Apps
+    state: directory
+    mode: '0755'
+  tags:
+    - directories
+
+- name: Create autostart directory if necessary
+  file:
+    path: /home/{{ ansible_facts['env']['USER'] }}/.config/autostart
+    state: directory
+    mode: '0755'
+  tags:
+    - directories
+
+- name: Add additional drives
+  include_tasks: tasks/system/drives.yml
+  tags:
+    - drives
+
