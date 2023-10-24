@@ -47,3 +47,8 @@
   include_tasks: tasks/software/meld.yml
   tags:
     - meld
+
+- name: Install Thunderbird
+  include_tasks: tasks/software/thunderbird.yml
+  tags:
+    - thunderbird
