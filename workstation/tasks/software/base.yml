@@ -11,6 +11,7 @@
       - gnome-extensions-app
       - gnome-shell-extension-appindicator
       - gstreamer1-plugin-openh264
+      - mozilla-openh264
     update_cache: yes
     state: latest
   tags:

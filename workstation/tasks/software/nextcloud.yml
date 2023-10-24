@@ -1,37 +1,14 @@
-- name: Install Nextcloud Client AppImage
-  get_url:
-    url: "https://download.nextcloud.com/desktop/releases/Linux/latest"
-    dest: "/home/{{ ansible_facts['env']['USER'] }}/Apps/Nextcloud.AppImage"
-    mode: 'u+rwx'
+- name: install base software
+  dnf:
+    name:
+      - nextcloud-desktop
+    update_cache: yes
+    state: latest
   tags:
     - software
     - nextcloud
-
-- name: Copy Nextcloud logo for desktop file entry
-  copy:
-    src: "files/nextcloud-logo.png"
-    dest: "/home/{{ ansible_facts['env']['USER'] }}/Apps/"
-    mode: '0644'
-  tags:
-    - software
-    - nextcloud
-
-- name: Add Nextcloud desktop file entry
-  template:
-    src: templates/software/nextcloud.desktop.j2
-    dest: "/home/{{ ansible_facts['env']['USER'] }}/.local/share/applications/nextcloud.desktop"
-  tags:
-    - software
-    - nextcloud
-
-- name: Autostart Nextcloud
-  template:
-    src: "templates/software/nextcloud.desktop.j2"
-    dest: "/home/{{ ansible_facts['env']['USER'] }}/.config/autostart/nextcloud.desktop"
-    mode: '0644'
-  tags:
-    - software
-    - nextcloud
+  become: yes
+  when: ansible_facts['distribution'] == "Fedora"
 
 - name: Check if Nextcloud Documents directory exists
   stat:
