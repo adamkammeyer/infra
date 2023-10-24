@@ -7,23 +7,23 @@
     - name: Prepare System
       include_tasks: tasks/system.yml
       tags:
-        - system
         - directories
+        - drives
         - flatpak
         - gnome
-        - drives
+        - system
 
     - name: Install Software
       include_tasks: tasks/software.yml
       tags:
         - base
-        - vscode
-        - starship
         - bitwarden
-        - nextcloud
         - calibre
-        - remmina
-        - syncthing
-        - qownnotes
         - meld
+        - nextcloud
+        - qownnotes
+        - remmina
+        - starship
+        - syncthing
         - thunderbird
+        - vscode
