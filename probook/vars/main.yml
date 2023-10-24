@@ -1,0 +1,3 @@
+docker_user: "dockremap"
+docker_user_uid: 231072
+docker_user_gid: 231072

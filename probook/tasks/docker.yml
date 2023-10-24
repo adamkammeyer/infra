@@ -1,0 +1,22 @@
+- include_role:
+    name: geerlingguy.docker
+    apply:
+      tags:
+        - docker
+  vars: 
+    docker_install_compose: false
+    docker_users:
+      - akammeyer
+    docker_daemon_options:
+      userns-remap: "default"
+  tags: 
+    - docker
+
+- name: Create Docker networks
+  docker_network:
+    name: "{{ item }}"
+  loop:
+    - internal
+    - external
+  tags:
+    - docker

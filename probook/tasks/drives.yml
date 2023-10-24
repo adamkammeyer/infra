@@ -1,0 +1,38 @@
+- name: Add NAS for NFS Shares
+  community.general.ini_file:
+    path: /etc/idmapd.conf
+    section: General
+    option: Domain
+    value: "{{ nas_ip }}"
+  tags:
+    - drives
+  
+- name: Make directory for external drives
+  file:
+    path: /mnt/nas
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - drives
+
+- name: Mount NAS storage folder via NFS
+  mount:
+    path: /mnt/nas/downloads
+    src: "{{ nas_ip }}:/export/downloads"
+    fstype: nfs
+    opts: ro,sync,hard
+    state: mounted
+  tags:
+    - drives 
+
+- name: Mount NAS storage folder via NFS
+  mount:
+    path: /mnt/nas/library
+    src: "{{ nas_ip }}:/export/library"
+    fstype: nfs
+    opts: ro,sync,hard
+    state: mounted
+  tags:
+    - drives
