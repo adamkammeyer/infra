@@ -1,0 +1,56 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ./vars/main.yml
+  tasks:
+    - name: Create config directory for plex
+      file:
+        path: /opt/appdata/plex
+        state: directory
+        owner: "{{ docker_user_uid }}"
+        group: "{{ docker_user_gid }}"
+        mode: "0755"
+      tags: 
+        - install
+
+    - name: Create plex container
+      docker_container:
+        name: plex
+        image: lscr.io/linuxserver/plex:latest
+        env:
+          PUID: "1000"
+          PGID: "1000"
+          TZ: "America/Chicago"
+        ports:
+          - "32400:32400"
+        volumes:
+          - /opt/appdata/plex:/config
+          - /mnt/nas/downloads/shows:/data/downloads_shows
+          - /mnt/nas/downloads/movies:/data/downloads_movies
+          - /mnt/nas/downloads/music:/data/downloads_music
+          - /mnt/nas/library/shows:/data/library_shows
+          - /mnt/nas/library/music:/data/library_music
+        devices:
+          - /dev/dri:/dev/dri
+        restart_policy: unless-stopped
+        networks:
+          - name: external
+      tags: 
+        - install
+
+    - name: Remove plex container
+      docker_container:
+        name: plex
+        state: absent
+      tags:
+        - remove
+        - purge
+    
+    - name: Remove plex config directory
+      file:
+        path: /opt/appdata/plex
+        state: absent
+      tags:
+        - purge

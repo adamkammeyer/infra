@@ -1,0 +1,22 @@
+mqtt:
+  enabled: False
+
+detectors: # <---- add detectors
+  coral:
+    type: edgetpu
+    device: usb
+
+cameras:
+  kitchen: # <------ Name the camera
+    ffmpeg:
+      hwaccel_args: preset-vaapi
+      inputs:
+        - path: rtsp://{{ kitchen_camera_ip }}:8554/unicast # <----- The stream you want to use for detection
+          roles:
+            - detect
+    detect:
+      enabled: True # <---- disable detection until you have a working camera feed
+      width: 640 # <---- update for your camera's resolution
+      height: 480 # <---- update for your camera's resolution
+    snapshots: # <----- Enable snapshots
+      enabled: True

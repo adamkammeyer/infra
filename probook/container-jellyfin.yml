@@ -1,0 +1,58 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ./vars/main.yml
+  tasks:
+    - name: Create config directory for jellyfin
+      file:
+        path: /opt/appdata/jellyfin
+        state: directory
+        owner: "{{ docker_user_uid }}"
+        group: "{{ docker_user_gid }}"
+        mode: "0755"
+      tags: 
+        - install
+
+    - name: Create jellyfin container
+      docker_container:
+        name: jellyfin
+        image: linuxserver/jellyfin:10.8.11
+        env:
+          PUID: "1000"
+          PGID: "1000"
+          TZ: "America/Chicago"
+        ports:
+          - "8096:8096"
+          - "8920:8920"
+        volumes:
+          - /opt/appdata/jellyfin:/config
+          - /mnt/nas/downloads/shows:/data/downloads_shows
+          - /mnt/nas/downloads/movies:/data/downloads_movies
+          - /mnt/nas/downloads/music:/data/downloads_music
+          - /mnt/nas/library/shows:/data/library_shows
+          - /mnt/nas/library/music:/data/library_music
+        devices:
+          - /dev/dri:/dev/dri
+        restart_policy: unless-stopped
+        networks:
+          - name: internal
+        networks_cli_compatible: yes
+      tags: 
+        - install
+
+    - name: Remove jellyfin container
+      docker_container:
+        name: jellyfin
+        state: absent
+      tags:
+        - remove
+        - purge
+    
+    - name: Remove jellyfin config directory
+      file:
+        path: /opt/appdata/jellyfin
+        state: absent
+      tags:
+        - purge

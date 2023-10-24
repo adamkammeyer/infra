@@ -1,0 +1,52 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ./vars/main.yml
+  tasks:
+    - name: Create config directory for airsonic
+      file:
+        path: /opt/appdata/airsonic
+        state: directory
+        owner: "{{ docker_user_uid }}"
+        group: "{{ docker_user_gid }}"
+        mode: "0755"
+      tags: 
+        - install
+
+    - name: Create airsonic container
+      docker_container:
+        name: airsonic
+        image: linuxserver/airsonic-advanced:latest
+        env:
+          PUID: "1000"
+          PGID: "1000"
+          TZ: "America/Chicago"
+        ports:
+          - "4040:4040"
+        volumes:
+          - /opt/appdata/airsonic:/config
+          - /mnt/nas/library/music:/music
+          - /mnt/nas/downloads/music:/downloads_music
+        restart_policy: unless-stopped
+        networks:
+          - name: internal
+        networks_cli_compatible: yes
+      tags: 
+        - install
+
+    - name: Remove airsonic container
+      docker_container:
+        name: airsonic
+        state: absent
+      tags:
+        - remove
+        - purge
+    
+    - name: Remove airsonic config directory
+      file:
+        path: /opt/appdata/airsonic
+        state: absent
+      tags:
+        - purge
