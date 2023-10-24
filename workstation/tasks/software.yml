@@ -42,3 +42,8 @@
   include_tasks: tasks/software/qownnotes.yml
   tags:
     - qownnotes
+
+- name: Install Meld
+  include_tasks: tasks/software/meld.yml
+  tags:
+    - meld
