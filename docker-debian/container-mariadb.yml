@@ -1,0 +1,73 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ./vars/main.yml
+  tasks:
+
+    - name: register "{{ docker_user }}" info
+      user:
+        name: "{{ docker_user }}"
+      check_mode: 'yes'
+      register: docker_user_info
+      tags:
+        - user
+        - always
+      
+    - name: Create config directory for mariadb
+      file:
+        path: /opt/appdata/mariadb
+        state: directory
+        owner: "{{ (docker_user_uid+1000)|int|abs }}"
+        group: "{{ (docker_user_uid+1000)|int|abs }}"
+        mode: "0755"
+      tags: 
+        - install
+
+    - name: Create tmp directory for SQL imports
+      file:
+        path: /opt/appdata/mariadb/tmp
+        state: directory
+        owner: "{{ (docker_user_uid+1000)|int|abs }}"
+        group: "{{ (docker_user_uid+1000)|int|abs }}"
+        mode: '0755'
+      tags: 
+        - install
+
+    - name: Create mariadb container
+      docker_container:
+        name: mariadb
+        image: ghcr.io/linuxserver/mariadb:10.11.4
+        env:
+          PUID: "1000"
+          PGID: "1000"
+          TZ: "America/Chicago"
+          MYSQL_ROOT_PASSWORD: "{{ mysql_root_pwd }}"
+        ports:
+          - "3306:3306"
+        volumes:
+          - /opt/appdata/mariadb:/config
+        restart_policy: always
+        networks:
+          - name: database
+        purge_networks: yes
+        networks_cli_compatible: yes
+      tags: 
+        - install
+    
+    - name: Remove mariadb container
+      docker_container:
+        name: mariadb
+        state: absent
+      tags:
+        - remove
+        - purge
+    
+    - name: Remove mariadb config directory
+      file:
+        path: /opt/appdata/mariadb
+        state: absent
+      tags:
+        - purge
+

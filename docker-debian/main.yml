@@ -1,0 +1,49 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: set timezone to America/Chicago
+      timezone:
+        name: America/Chicago
+      tags: 
+        - base
+    
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: dist
+        update_cache: yes
+      tags:
+        - base
+
+    - name: Install prerequisite packages
+      apt:
+        pkg:
+        - nfs-common
+      tags: 
+        - base
+
+    - include_role:
+        name: geerlingguy.security
+        apply:
+          tags:
+            - base
+      tags: 
+        - base
+    
+    - name: Install tailscale
+      include_role:
+        name: artis3n.tailscale
+        apply:
+          tags:
+            - tailscale
+      vars:
+        tailscale_up_skip: true
+      tags:
+        - tailscale
+
+    - name: Install Docker
+      include_tasks: tasks/docker.yml
+      tags:
+        - docker
+    

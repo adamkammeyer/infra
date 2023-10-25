@@ -1,0 +1,28 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  vars_files:
+  tasks:
+    - name: Create tika container
+      docker_container:
+        name: tika
+        image: apache/tika:2.8.0.0
+        ports:
+          - "3000:3000"
+        restart_policy: unless-stopped
+        networks:
+          - name: internal
+        purge_networks: yes
+        networks_cli_compatible: yes
+      tags: 
+        - install
+    
+    - name: Remove tika container
+      docker_container:
+        name: tika
+        state: absent
+      tags:
+        - remove
+        - purge
+    

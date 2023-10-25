@@ -1,0 +1,36 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  vars_files:
+  tasks:
+    - name: Create adminer container
+      docker_container:
+        name: adminer
+        image: adminer:4.8.1
+        ports:
+          - "8080:8080"
+        restart_policy: unless-stopped
+        networks:
+          - name: internal
+          - name: database
+        purge_networks: yes
+        networks_cli_compatible: yes
+      tags: 
+        - install
+    
+    - name: Remove adminer container
+      docker_container:
+        name: adminer
+        state: absent
+      tags:
+        - remove
+        - purge
+    
+    - name: Remove adminer config directory
+      file:
+        path: /opt/appdata/adminer
+        state: absent
+      tags:
+        - purge
+
