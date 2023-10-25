@@ -1,0 +1,62 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: set timezone to America/Chicago
+      timezone:
+        name: America/Chicago
+      tags: 
+        - base
+    
+    - include_role:
+        name: geerlingguy.security
+        apply:
+          tags:
+            - base
+      tags: 
+        - base
+
+    - name: Deny everything and enable UFW
+      community.general.ufw:
+        state: enabled
+        policy: deny
+      tags: 
+        - base
+
+    - name: Allow all access to specific ports
+      community.general.ufw:
+        rule: allow
+        port: "{{ item }}"
+        proto: tcp
+      loop:
+        - "22"
+        - "80"
+        - "443"
+        - "25"
+        - "587"
+        - "993"
+        - "4190"
+      tags: 
+        - base
+
+    - name: Reload UFW
+      command: ufw reload
+      tags: 
+        - base
+    
+    - name: Install tailscale
+      include_role:
+        name: artis3n.tailscale
+        apply:
+          tags:
+            - tailscale
+      vars:
+        tailscale_up_skip: true
+      tags:
+        - tailscale
+
+    - name: Install external drives
+      include_tasks: tasks/drives.yml
+      tags:
+        - drives

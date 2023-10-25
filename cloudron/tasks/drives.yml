@@ -1,0 +1,38 @@
+- name: Add NAS for NFS Shares
+  community.general.ini_file:
+    path: /etc/idmapd.conf
+    section: General
+    option: Domain
+    value: "{{ nas_ip }}"
+  tags:
+    - drives
+
+- name: Make directory for external drives
+  file:
+    path: /mnt/drives
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - drives
+
+- name: Make directory for NAS drives
+  file:
+    path: /mnt/nas
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - drives
+
+- name: Mount External NVME for cloudron-vm
+  when: inventory_hostname in groups['vm']
+  mount:
+    path: /mnt/drives/nvme480gb
+    src: UUID=395eafc8-0b7b-4e52-989a-f0e17990da38
+    fstype: ext4
+    state: mounted
+  tags:
+    - drives 
