@@ -8,7 +8,8 @@ if [[ ! -z $DNF_CMD ]]; then
 elif [[ ! -z $APT_CMD ]]; then
     sudo apt update
     sudo apt install software-properties-common
-    sudo add-apt-repository --yes --update ppa:ansible/ansible
+#    sudo add-apt-repository --yes --update ppa:ansible/ansible
+    sudo add-apt-repository --yes --update -S 'deb https://ppa.launchpadcontent.net/ansible/ansible/ubuntu lunar main'
     sudo apt install ansible
 else
     echo "Error: Unable to install Ansible"
