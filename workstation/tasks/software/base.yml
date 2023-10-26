@@ -1,12 +1,19 @@
 - name: install base software
-  dnf:
+  become: yes
+  package:
     name:
       - git
       - gnome-tweaks
       - vim
-      - libgnome-keyring
       - poppler-utils
-      - tlp
+    state: latest
+  tags:
+    - base
+
+- name: install base software
+  dnf:
+    name:
+      - libgnome-keyring
       - ffmpeg-free
       - gnome-extensions-app
       - gnome-shell-extension-appindicator
@@ -22,12 +29,9 @@
 - name: install base software
   apt:
     name:
-      - git
-      - gnome-tweaks
-      - vim
       - libpam-gnome-keyring
-      - poppler-utils
       - libfuse2
+      - gnome-shell-extension-manager
     update_cache: yes
     state: latest
   tags:
