@@ -20,9 +20,10 @@
   when: ansible_facts['distribution'] == "Fedora"
   
 - name: Install VS Code on Ubuntu
-  apt:
-    deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
   become: yes
+  snap:
+    name: code
+    classic: true
   tags:
     - vscode
   when: ansible_facts['distribution'] == "Ubuntu"

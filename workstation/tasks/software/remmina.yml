@@ -6,3 +6,14 @@
   tags:
     - software
     - remmina
+  when: ansible_facts['distribution'] == "Fedora"
+
+- name: Install the Remmina snap
+  become: yes
+  snap:
+    name: remmina
+    state: present
+  tags:
+    - software
+    - remmina
+  when: ansible_facts['distribution'] == "Ubuntu"

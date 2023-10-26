@@ -9,6 +9,45 @@
     - nextcloud
   become: yes
   when: ansible_facts['distribution'] == "Fedora"
+  
+- name: Install Nextcloud Client AppImage
+  get_url:
+    url: "https://download.nextcloud.com/desktop/releases/Linux/latest"
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/Apps/Nextcloud.AppImage"
+    mode: 'u+rwx'
+  tags:
+    - software
+    - nextcloud
+  when: ansible_facts['distribution'] == "Ubuntu"
+
+- name: Copy Nextcloud logo for desktop file entry
+  copy:
+    src: "files/nextcloud-logo.png"
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/Apps/"
+    mode: '0644'
+  tags:
+    - software
+    - nextcloud
+  when: ansible_facts['distribution'] == "Ubuntu"
+
+- name: Add Nextcloud desktop file entry
+  template:
+    src: templates/software/nextcloud.desktop.j2
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/.local/share/applications/nextcloud.desktop"
+  tags:
+    - software
+    - nextcloud
+  when: ansible_facts['distribution'] == "Ubuntu"
+
+- name: Autostart Nextcloud
+  template:
+    src: "templates/software/nextcloud.desktop.j2"
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/.config/autostart/nextcloud.desktop"
+    mode: '0644'
+  tags:
+    - software
+    - nextcloud
+  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Check if Nextcloud Documents directory exists
   stat:

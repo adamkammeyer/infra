@@ -6,3 +6,14 @@
   tags:
     - software
     - meld
+  when: ansible_facts['distribution'] == "Fedora"
+  
+- name: Install Meld package from apt
+  become: yes
+  apt:
+    name: meld
+    state: present
+  tags:
+    - software
+    - meld
+  when: ansible_facts['distribution'] == "Ubuntu"

@@ -6,3 +6,14 @@
   tags:
     - software
     - calibre
+  when: ansible_facts['distribution'] == "Fedora"
+  
+- name: Install Calibre package from apt
+  become: yes
+  apt:
+    name: calibre
+    state: present
+  tags:
+    - software
+    - calibre
+  when: ansible_facts['distribution'] == "Ubuntu"

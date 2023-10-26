@@ -6,3 +6,14 @@
   tags:
     - software
     - thunderbird
+  when: ansible_facts['distribution'] == "Fedora"
+
+- name: Install the Thunderbird snap
+  become: yes
+  snap:
+    name: thunderbird
+    state: present
+  tags:
+    - software
+    - thunderbird
+  when: ansible_facts['distribution'] == "Ubuntu"

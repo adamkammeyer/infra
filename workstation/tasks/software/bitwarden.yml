@@ -6,6 +6,7 @@
   tags:
     - software
     - bitwarden
+  when: ansible_facts['distribution'] == "Fedora"
 
 - name: Copy Bitwarden logo for desktop file entry
   copy:
@@ -15,6 +16,7 @@
   tags:
     - software
     - bitwarden
+  when: ansible_facts['distribution'] == "Fedora"
 
 - name: Add Bitwarden desktop file entry
   template:
@@ -23,3 +25,10 @@
   tags:
     - software
     - bitwarden
+  when: ansible_facts['distribution'] == "Fedora"
+    
+- name: Install Bitwarden snap
+  become: yes
+  community.general.snap:
+    name: bitwarden
+  when: ansible_facts['distribution'] == "Ubuntu"
