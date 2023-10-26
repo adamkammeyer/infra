@@ -4,6 +4,13 @@
   tags:
     - system
 
+- name: Set a hostname
+  when: ansible_facts['form_factor'] == "Notebook"
+  ansible.builtin.hostname:
+    name: adam-laptop
+  tags:
+    - system
+
 - name: Update system
   package:
     name: "*"
@@ -69,8 +76,8 @@
   tags:
     - directories
 
-- name: Add additional drives
-  include_tasks: tasks/system/drives.yml
-  tags:
-    - drives
+#- name: Add additional drives
+#  include_tasks: tasks/system/drives.yml
+#  tags:
+#    - drives
 
