@@ -52,3 +52,8 @@
   include_tasks: tasks/software/thunderbird.yml
   tags:
     - thunderbird
+
+- name: Install Terraform
+  include_tasks: tasks/software/terraform.yml
+  tags:
+    - terraform

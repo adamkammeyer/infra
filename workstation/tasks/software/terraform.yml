@@ -1,0 +1,8 @@
+- name: Install Terraform
+  include_role:
+    name: andrewrothstein.terraform
+    apply:
+      tags:
+        - terraform
+  tags:
+    - terraform

@@ -2,3 +2,5 @@
 roles:
   - name: andrewrothstein.starship
     version: v1.1.2
+  - name: andrewrothstein.terraform
+    version: v3.0.20
