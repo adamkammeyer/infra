@@ -1,0 +1,68 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ./vars/main.yml
+  tasks:
+    - name: set timezone to America/Chicago
+      timezone:
+        name: America/Chicago
+      tags: 
+        - base
+    
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: dist
+        update_cache: yes
+      tags:
+        - base
+
+    - include_role:
+        name: geerlingguy.security
+        apply:
+          tags:
+            - base
+      tags: 
+        - base
+    
+    - name: Install tailscale
+      include_role:
+        name: artis3n.tailscale
+        apply:
+          tags:
+            - tailscale
+      vars:
+        tailscale_up_skip: true
+      tags:
+        - tailscale
+
+    - include_role:
+        name: caddy_ansible.caddy_ansible
+        apply:
+          tags:
+            - caddy
+      vars:
+        caddy_environment_variables:
+          LINODE_TOKEN: "{{ linode_token }}"
+          CLOUDFLARE_TOKEN: "{{ cloudflare_token }}"
+        caddy_systemd_capabilities_enabled: true
+        caddy_systemd_network_dependency: false
+        caddy_packages: ["github.com/caddy-dns/linode", "github.com/caddy-dns/cloudflare"]
+        caddy_config: "{{ lookup('template', 'templates/Caddyfile.j2') }}"
+      tags: 
+        - caddy
+
+    - name: Generate new Caddyfile
+      template:
+        src: ./templates/Caddyfile.j2
+        dest: /etc/caddy/Caddyfile
+      tags:
+        - config
+
+    - name: Reload Caddy
+      service:
+        name: caddy
+        state: reloaded
+      tags:
+        - config

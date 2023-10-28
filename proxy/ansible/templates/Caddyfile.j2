@@ -1,0 +1,24 @@
+{% for domain in domains %}
+{{ domain['name'] }} {
+    log {
+        output file /var/log/caddy/{{ domain['name'] }}-access.log {
+            roll_size 1gb
+            roll_keep 5
+            roll_keep_for 720h
+        }
+    }
+
+    reverse_proxy https://{{ domain['ip']}} {
+        transport http {
+            tls_insecure_skip_verify
+        }
+        header_up Host {http.request.host}
+        header_up X-Real-IP {http.request.remote.host}
+        header_up X-Forwarded-Port {http.request.port}
+    }
+
+    tls {{ domain['cert_email'] }} {
+        dns {{ domain['dns'] }} {env.{{ domain['token']  }}}
+    }
+}
+{% endfor %}

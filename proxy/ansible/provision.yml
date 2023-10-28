@@ -1,0 +1,42 @@
+- hosts: all
+  remote_user: root
+  vars:
+
+  tasks:
+    - name: Authorize personal SSH key for personal user
+      authorized_key:
+        user: "root"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
+
+    - name: Ensure sudo is installed
+      apt:
+        pkg:
+          - sudo
+        update_cache: yes
+      become: true
+
+    - name: Add the ansible user
+      user:
+        name: "ansible"
+        password: "{{ remote_user_pwd | password_hash('sha512', remote_user_pwd_salt) }}"
+        shell: /bin/bash
+        groups: "sudo"
+        append: yes
+      become: true
+
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "ansible"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_ed25519_ansible.pub') }}"
+      become: true
+
+    - name: Set ansible user as passwordless sudo
+      copy:
+        src: ./templates/ansible-nopasswd.j2
+        dest: "/etc/sudoers.d/ansible-nopasswd"
+        owner: root
+        group: root
+        mode: 0644
+      become: true
