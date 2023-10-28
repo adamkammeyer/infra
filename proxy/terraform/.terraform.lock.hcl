@@ -22,3 +22,26 @@ provider "registry.terraform.io/linode/linode" {
     "zh:f41a2141b51b8186cceabfad3581621dc5873f254abe60ff6d2929e6d26e4091",
   ]
 }
+
+provider "registry.terraform.io/nxt-engineering/publicip" {
+  version     = "0.0.9"
+  constraints = "0.0.9"
+  hashes = [
+    "h1:7YdeSnfD0DVnj0EcuFcH8ehXIiqRhSbW1UnQwvWNrLk=",
+    "zh:2120ccb51ae0405f75f05e8eae7e207fb03638bfc5a2f394f535d6c1824b9570",
+    "zh:217139d509d0c1296d3eba006b372e268b67eb44cce45b8bb1532a9c411425aa",
+    "zh:47a1c66bb1310e50392f6d7b3c068c80947f9a8adc5a2c2ac2c90ddb7d87b73f",
+    "zh:5c0eb80da5674a133cbd368f6ec15d146f8cbd9e9e1d4bf0cb4dfee1d0ba346e",
+    "zh:6bf54da1ad847b4f369b8ca884008bd45c0934f04bc340a9d0b49cc2785ccb51",
+    "zh:890df766e9b839623b1f0437355032a3c006226a6c200cd911e15ee1a9014e9f",
+    "zh:90cc2613fe35aed4ecab7680ec950ea73104975f64b86bb06156f81b9a82c39f",
+    "zh:92c8d116d1a3d26548e429df6717aabb26321e9f7a766a132784174dd00b45b1",
+    "zh:b163c367f5b7610ef0a7c5e03cfe6b4e21c9f831f65f8adf48277b1df2f1e88f",
+    "zh:c2ec09d66c77dd9bb9dcbd84cab9017842faaac1e87bfff830f29ec9505ec962",
+    "zh:c3bfe8a90b961f512b87f354fba3371889604535001692757dc5e20f9d43c53a",
+    "zh:d09ac4b5920bccbfaac59bd34e2d23588a1ac6495c19ad2d7ef28f8565d871d8",
+    "zh:d5d682892a4ae65eb9487931d05057b90ffcf34d454797ad09a5fcfe0f2c9f6e",
+    "zh:d8e49986a742f4be846793005fc1999a6969f62f6cb20e88ee3a5d5ddb215a4f",
+    "zh:d9d240a83b5f4f79e2b8f2b6a3ab8b5ebea31f12ac4527504b99c49265965e53",
+  ]
+}
