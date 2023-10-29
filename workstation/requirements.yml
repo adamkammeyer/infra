@@ -4,3 +4,5 @@ roles:
     version: v1.1.2
   - name: andrewrothstein.terraform
     version: v3.0.20
+  - name: andrewrothstein.hugo
+    version: v2.1.0

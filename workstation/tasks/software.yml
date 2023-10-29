@@ -57,3 +57,8 @@
   include_tasks: tasks/software/terraform.yml
   tags:
     - terraform
+
+- name: Install Hugo
+  include_tasks: tasks/software/hugo.yml
+  tags:
+    - hugo

@@ -1,0 +1,10 @@
+- name: Install Hugo
+  include_role:
+    name: andrewrothstein.hugo
+    apply:
+      tags:
+        - hugo
+  vars:
+    hugo_ver: 0.119.0
+  tags:
+    - hugo
