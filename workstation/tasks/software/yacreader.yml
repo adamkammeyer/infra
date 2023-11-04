@@ -1,0 +1,19 @@
+- name: Install the YACReader package from flathub
+  flatpak:
+    name: com.yacreader.YACReader
+    state: present
+    method: system
+  tags:
+    - software
+    - yacreader
+  when: ansible_facts['distribution'] == "Fedora"
+  
+- name: Install YACReader package from apt
+  become: yes
+  apt:
+    deb: https://download.opensuse.org/repositories/home:/selmf/xUbuntu_23.04/amd64/yacreader_9.13.1-2_amd64.deb
+    state: present
+  tags:
+    - software
+    - yacreader
+  when: ansible_facts['distribution'] == "Ubuntu"

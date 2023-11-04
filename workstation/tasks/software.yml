@@ -67,3 +67,8 @@
   include_tasks: tasks/software/comictagger.yml
   tags:
     - comictagger
+
+- name: Install YACReader
+  include_tasks: tasks/software/yacreader.yml
+  tags:
+    - yacreader
