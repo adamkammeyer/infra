@@ -1,21 +1,61 @@
-- name: Create 4TB mount folder
+- name: Create internal drives mount folders
+  when: ansible_facts['form_factor'] == "Desktop"
   ansible.builtin.file:
-    path: /media/drives/external-4tb
+    path: /media/drives/internal-1tb-{{ item }}
     state: directory
     mode: '0755'
   become: yes
   tags:
     - system
     - drives
+  loop:
+    - 1
+    - 2
 
-- name: Mount 4TB USB drive
+- name: Mount internal drives
+  when: ansible_facts['form_factor'] == "Desktop"
   ansible.posix.mount:
-    path: /media/drives/external-4tb
-    src: UUID=c36b7532-f2c3-42b2-b23e-627d9afba39b
+    path: /media/drives/internal-1tb-{{ item.num }}
+    src: UUID={{ item.uuid }}
     fstype: auto
     opts: nosuid,nodev,nofail,x-gvfs-show
     state: mounted
   become: yes
   tags:
     - system
+    - drives
+  loop:
+    - { num: 1, uuid: 0127bc13-4daf-418a-9409-3d4438c26d78 }
+    - { num: 2, uuid: d9ac7a12-4eaf-48aa-b00b-d598fe5666b3 }
+
+- name: Add NAS for NFS Shares
+  become: true
+  community.general.ini_file:
+    path: /etc/idmapd.conf
+    section: General
+    option: Domain
+    value: "{{ nas_ip }}"
+  tags:
+    - drives
+  
+- name: Make directory for NAS
+  become: true
+  file:
+    path: /mnt/nas
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  tags:
+    - drives
+
+- name: Mount NAS storage folder via NFS
+  become: true
+  mount:
+    path: /mnt/nas/library
+    src: "{{ nas_ip }}:/export/library"
+    fstype: nfs
+    opts: ro,sync,hard
+    state: mounted
+  tags:
     - drives

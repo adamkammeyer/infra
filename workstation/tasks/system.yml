@@ -76,8 +76,8 @@
   tags:
     - directories
 
-#- name: Add additional drives
-#  include_tasks: tasks/system/drives.yml
-#  tags:
-#    - drives
+- name: Add additional drives
+  include_tasks: tasks/system/drives.yml
+  tags:
+    - drives
 

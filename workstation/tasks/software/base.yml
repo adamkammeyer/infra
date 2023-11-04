@@ -33,6 +33,7 @@
       - libpam-gnome-keyring
       - libfuse2
       - gnome-shell-extension-manager
+      - nfs-common
     update_cache: yes
     state: latest
   tags:
