@@ -1,0 +1,26 @@
+- name: Fetch the latest ComicTagger AppImage
+  get_url:
+    url: "https://github.com/comictagger/comictagger/releases/download/1.6.0-alpha.8/ComicTagger-x86_64.AppImage"
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/Apps/ComicTagger.AppImage"
+    mode: 'u+rwx'
+  tags:
+    - software
+    - comictagger
+
+- name: Copy ComicTagger logo for desktop file entry
+  copy:
+    src: "files/comictagger-logo.png"
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/Apps/"
+    mode: '0644'
+  tags:
+    - software
+    - comictagger
+
+- name: Add ComicTagger desktop file entry
+  template:
+    src: templates/software/comictagger.desktop.j2
+    dest: "/home/{{ ansible_facts['env']['USER'] }}/.local/share/applications/comictagger.desktop"
+  tags:
+    - software
+    - comictagger
+    

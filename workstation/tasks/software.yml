@@ -62,3 +62,8 @@
   include_tasks: tasks/software/hugo.yml
   tags:
     - hugo
+
+- name: Install ComicTagger
+  include_tasks: tasks/software/comictagger.yml
+  tags:
+    - comictagger

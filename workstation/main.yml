@@ -19,6 +19,7 @@
         - base
         - bitwarden
         - calibre
+        - comictagger
         - hugo
         - meld
         - nextcloud
