@@ -38,7 +38,7 @@
     - name: Create mariadb container
       docker_container:
         name: mariadb
-        image: ghcr.io/linuxserver/mariadb:10.11.4
+        image: ghcr.io/linuxserver/mariadb:10.11.5
         env:
           PUID: "1000"
           PGID: "1000"
