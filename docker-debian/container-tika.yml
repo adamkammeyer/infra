@@ -9,7 +9,7 @@
         name: tika
         image: apache/tika:2.8.0.0
         ports:
-          - "3000:3000"
+          - "9998:9998"
         restart_policy: unless-stopped
         networks:
           - name: internal
