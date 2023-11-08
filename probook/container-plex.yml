@@ -32,6 +32,7 @@
           - /mnt/nas/downloads/music:/data/downloads_music
           - /mnt/nas/library/shows:/data/library_shows
           - /mnt/nas/library/music:/data/library_music
+          - /mnt/nas/library:/data/library
         devices:
           - /dev/dri:/dev/dri
         restart_policy: unless-stopped
