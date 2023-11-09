@@ -1,0 +1,25 @@
+- hosts: all
+  remote_user: navigator
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: set timezone to America/Chicago
+      timezone:
+        name: America/Chicago
+      tags: 
+        - base
+    
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: dist
+        update_cache: yes
+      tags:
+        - base
+
+    - include_role:
+        name: geerlingguy.security
+        apply:
+          tags:
+            - base
+      tags: 
+        - base

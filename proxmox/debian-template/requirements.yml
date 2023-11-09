@@ -1,0 +1,4 @@
+---
+roles:
+  - name: geerlingguy.security
+    version: 2.2.0
