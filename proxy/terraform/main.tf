@@ -24,7 +24,7 @@ terraform {
   backend "s3" {
     endpoint = "s3.us-west-002.backblazeb2.com"
     region = "us-east-1"
-    key = "debian-proxy.tfstate"
+    key = "external-proxy.tfstate"
     bucket = "lmc-terraform"
     skip_credentials_validation = true
     skip_metadata_api_check = true
@@ -33,9 +33,9 @@ terraform {
   }
 }
 
-resource "linode_instance" "debian-proxy" {
+resource "linode_instance" "external-proxy" {
   image = "linode/debian12"
-  label = "debian_proxy"
+  label = "external-proxy"
   region = var.region
   type = "g6-nanode-1"
   swap_size = "4096"
@@ -44,8 +44,8 @@ resource "linode_instance" "debian-proxy" {
   backups_enabled = true
 }
 
-resource "linode_firewall" "proxy_firewall" {
-  label = "proxy_fw"
+resource "linode_firewall" "proxy-firewall" {
+  label = "proxy-firewall"
   inbound {
     label    = "allow-http"
     action   = "ACCEPT"
@@ -76,5 +76,5 @@ resource "linode_firewall" "proxy_firewall" {
 
   outbound_policy = "ACCEPT"
 
-  linodes = [linode_instance.debian-proxy.id]
+  linodes = [linode_instance.external-proxy.id]
 }
