@@ -23,3 +23,10 @@
             - base
       tags: 
         - base
+
+    - name: Update all packages to the latest version
+      apt:
+        name:
+          - cloud-init
+      tags:
+        - base
