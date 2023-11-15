@@ -1,0 +1,14 @@
+---
+roles:
+  - name: geerlingguy.security
+    version: 2.2.0
+  - name: artis3n.tailscale
+    version: v4.2.2
+  - name: geerlingguy.java
+    version: 2.3.2
+  - name: geerlingguy.jenkins
+    version: 5.1.0
+  - name: andrewrothstein.hugo
+    version: v2.1.0
+  - name: geerlingguy.docker
+    version: 6.1.0

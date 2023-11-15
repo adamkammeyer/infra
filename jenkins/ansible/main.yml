@@ -1,0 +1,95 @@
+- hosts: all
+  remote_user: navigator
+  become: yes
+  become_method: sudo
+  vars:
+    domains:
+      - name: ci.lifemeetscode.com
+        ip: 127.0.0.1:8080
+        cert_email: akammeyer@pm.me
+        dns: linode
+        token: LINODE_TOKEN
+  tasks:
+
+    - name: install packages
+      package:
+        name:
+          - git
+      tags:
+        - packages
+    
+    - name: Install tailscale
+      include_role:
+        name: artis3n.tailscale
+        apply:
+          tags:
+            - tailscale
+      vars:
+        tailscale_authkey: "{{ ts_auth_key }}"
+      tags:
+        - tailscale
+
+    - name: Install Java
+      include_role:
+        name: geerlingguy.java
+        apply:
+          tags:
+            - jenkins
+      tags:
+        - jenkins
+
+    - include_role:
+        name: caddy_ansible.caddy_ansible
+        apply:
+          tags:
+            - caddy
+      vars:
+        caddy_environment_variables:
+          LINODE_TOKEN: "{{ linode_token }}"
+        caddy_systemd_capabilities_enabled: true
+        caddy_systemd_network_dependency: false
+        caddy_packages: ["github.com/caddy-dns/linode"]
+        caddy_config: "{{ lookup('template', 'templates/Caddyfile.j2') }}"
+      tags: 
+        - caddy
+
+    - name: Install Jenkins
+      include_role:
+        name: geerlingguy.jenkins
+        apply:
+          tags:
+            - jenkins
+      vars:
+        jenkins_admin_password: "{{ jenkins_password }}"
+        jenkins_options: "--httpListenAddress=127.0.0.1"
+        jenkins_plugins:
+          - configuration-as-code
+          - branch-api
+          - build-timeout
+          - checks-api
+          - credentials
+          - cloudbees-folder
+          - generic-webhook-trigger
+          - git
+          - gitea
+          - ldap
+          - mailer
+          - workflow-aggregator
+          - publish-over-ssh
+          - scm-api
+          - ssh-credentials
+          - timestamper
+          - ws-cleanup
+      tags:
+        - jenkins
+
+    - name: Install Hugo
+      include_role:
+        name: andrewrothstein.hugo
+        apply:
+          tags:
+            - hugo
+      vars:
+        hugo_ver: 0.119.0
+      tags:
+        - hugo
