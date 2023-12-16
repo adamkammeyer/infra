@@ -11,6 +11,7 @@
         - drives
         - flatpak
         - gnome
+        - home
         - system
 
     - name: Install Software

@@ -59,7 +59,12 @@
   include_tasks: tasks/system/gnome.yml
   tags:
     - gnome
- 
+
+- name: Customize Home directory
+  include_tasks: tasks/system/home.yml
+  tags:
+    - home
+
 - name: Create Apps directory if necessary
   file:
     path: /home/{{ ansible_facts['env']['USER'] }}/Apps

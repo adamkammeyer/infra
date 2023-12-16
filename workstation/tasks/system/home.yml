@@ -1,0 +1,29 @@
+- name: Check if Library directory exists
+  stat:
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Library"
+  register: result
+  tags:
+    - system
+    - home
+
+- name: Create Library folder if it doesn't exist
+  file:
+    path: "/home/{{ ansible_facts['env']['USER'] }}/Library"
+    state: directory
+    owner: "{{ ansible_facts['env']['USER'] }}"
+    group: "{{ ansible_facts['env']['USER'] }}"
+    mode: 0775
+  when: result.stat.exists == false
+  tags:
+    - system
+    - home
+
+- name: Create Library symlink in Home
+  file:
+    path: "/home/{{ ansible_facts['env']['USER'] }}/.comixed"
+    state: link
+    src: "/home/{{ ansible_facts['env']['USER'] }}/Library/comics/database"
+  become: yes
+  tags:
+    - system
+    - home
