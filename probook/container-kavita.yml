@@ -1,0 +1,51 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ./vars/main.yml
+  tasks:
+    - name: Create config directory for kavita
+      file:
+        path: /opt/appdata/kavita
+        state: directory
+        owner: "{{ docker_user_uid }}"
+        group: "{{ docker_user_gid }}"
+        mode: "0755"
+      tags: 
+        - install
+
+    - name: Create kavita container
+      docker_container:
+        name: komga
+        image: lscr.io/linuxserver/kavita:latest
+        env:
+          PUID: "1000"
+          PGID: "1000"
+          TZ: "America/Chicago"
+        ports:
+          - "5001:5000"
+        volumes:
+          - /opt/appdata/kavita:/config
+          - /mnt/nas/library/comics:/data
+        restart_policy: unless-stopped
+        networks:
+          - name: internal
+        networks_cli_compatible: yes
+      tags: 
+        - install
+
+    - name: Remove kavita container
+      docker_container:
+        name: kavita
+        state: absent
+      tags:
+        - remove
+        - purge
+    
+    - name: Remove kavita config directory
+      file:
+        path: /opt/appdata/kavita
+        state: absent
+      tags:
+        - purge
