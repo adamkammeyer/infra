@@ -8,6 +8,12 @@
         name: America/Chicago
       tags: 
         - base
+
+    - name: Update all packages to their latest version
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+        update_cache: yes
     
     - include_role:
         name: geerlingguy.security
@@ -35,6 +41,7 @@
         - "443"
         - "25"
         - "587"
+        - "636"
         - "993"
         - "4190"
       tags: 
