@@ -32,7 +32,7 @@
     path: /mnt/nas/library
     src: "{{ nas_ip }}:/export/library"
     fstype: nfs
-    opts: ro,sync,hard
+    opts: sync,hard
     state: mounted
   tags:
     - drives

@@ -1,0 +1,51 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ./vars/main.yml
+  tasks:
+    - name: Create config directory for calibre-web
+      file:
+        path: /opt/appdata/calibre-web
+        state: directory
+        owner: "{{ docker_user_uid }}"
+        group: "{{ docker_user_gid }}"
+        mode: "0755"
+      tags: 
+        - install
+
+    - name: Create calibre-web container
+      docker_container:
+        name: calibre-web
+        image: lscr.io/linuxserver/calibre-web
+        env:
+          PUID: "1000"
+          PGID: "1000"
+          TZ: "America/Chicago"
+        ports:
+          - "8083:8083"
+        volumes:
+          - /opt/appdata/calibre-web:/config
+          - /mnt/nas/library/books:/books
+        restart_policy: unless-stopped
+        networks:
+          - name: internal
+        networks_cli_compatible: yes
+      tags: 
+        - install
+
+    - name: Remove calibre-web container
+      docker_container:
+        name: calibre-web
+        state: absent
+      tags:
+        - remove
+        - purge
+    
+    - name: Remove calibre-web config directory
+      file:
+        path: /opt/appdata/calibre-web
+        state: absent
+      tags:
+        - purge
