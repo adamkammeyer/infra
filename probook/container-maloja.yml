@@ -1,0 +1,52 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ./vars/main.yml
+  tasks:
+    - name: Create config directory for maloja
+      file:
+        path: /opt/appdata/maloja
+        state: directory
+        owner: "{{ docker_user_uid+1000 }}"
+        group: "{{ docker_user_gid+1001 }}"
+        mode: "0755"
+      tags: 
+        - install
+
+    - name: Create maloja container
+      docker_container:
+        name: maloja
+        image: krateng/maloja:latest
+        env:
+          PUID: "1000"
+          PGID: "1001"
+          TZ: "America/Chicago"
+          MALOJA_DATA_DIRECTORY: "/mljdata"
+          MALOJA_SKIP_SETUP: "true"
+        ports:
+          - "42010:42010"
+        volumes:
+          - /opt/appdata/maloja:/mljdata
+        restart_policy: unless-stopped
+        networks:
+          - name: internal
+        networks_cli_compatible: yes
+      tags: 
+        - install
+
+    - name: Remove maloja container
+      docker_container:
+        name: maloja
+        state: absent
+      tags:
+        - remove
+        - purge
+    
+    - name: Remove maloja config directory
+      file:
+        path: /opt/appdata/maloja
+        state: absent
+      tags:
+        - purge

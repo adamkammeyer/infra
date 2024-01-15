@@ -1,0 +1,87 @@
+- hosts: all
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ./vars/main.yml
+  tasks:
+    - name: Create config directory for navidrome
+      file:
+        path: /opt/appdata/navidrome
+        state: directory
+        owner: "{{ docker_user_uid }}"
+        group: "{{ docker_user_gid }}"
+        mode: "0755"
+      tags: 
+        - install
+
+    - name: Create combined library folder
+      file:
+        path: /opt/appdata/navidrome/combined_library
+        state: directory
+        owner: "1000"
+        group: "100"
+        mode: "0755"
+      tags: 
+        - install
+        - library
+
+    - name: Create symlinks to libraries
+      file:
+        dest: /opt/appdata/navidrome/combined_library/library_music
+        src: /mnt/nas/library/music
+        state: link
+        # owner: "{{ docker_user_uid }}"
+        # group: "{{ docker_user_gid }}"
+      tags: 
+        - install
+        - library
+
+    - name: Create symlinks to libraries
+      file:
+        dest: /opt/appdata/navidrome/combined_library/downloads_music
+        src: /mnt/nas/downloads/music
+        state: link
+        # owner: "{{ docker_user_uid }}"
+        # group: "{{ docker_user_gid }}"
+      tags: 
+        - install
+        - library
+
+    - name: Create navidrome container
+      docker_container:
+        name: navidrome
+        image: deluan/navidrome:latest
+        env:
+          PUID: "1000"
+          PGID: "1000"
+          TZ: "America/Chicago"
+          ND_LISTENBRAINZ_BASEURL: "http://192.168.10.36:42010/apis/listenbrainz/1/"
+        ports:
+          - "4533:4533"
+        volumes:
+          - /opt/appdata/navidrome:/data
+          - /mnt/nas/library/music:/music/library:ro
+          - /mnt/nas/downloads/music:/music/downloads:ro
+          - /mnt/nas/library/playlists:/music/playlists:ro
+        restart_policy: unless-stopped
+        networks:
+          - name: internal
+        networks_cli_compatible: yes
+      tags: 
+        - install
+
+    - name: Remove navidrome container
+      docker_container:
+        name: navidrome
+        state: absent
+      tags:
+        - remove
+        - purge
+    
+    - name: Remove navidrome config directory
+      file:
+        path: /opt/appdata/navidrome
+        state: absent
+      tags:
+        - purge
