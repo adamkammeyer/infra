@@ -8,10 +8,15 @@
         }
     }
 
+    {% if domain['ip_port'] is defined %}
+    reverse_proxy http://{{ domain['ip_port']}} {
+    {% else %}
     reverse_proxy https://{{ domain['ip']}} {
         transport http {
             tls_insecure_skip_verify
         }
+    {% endif %}
+        
         header_up Host {http.request.host}
         header_up X-Real-IP {http.request.remote.host}
         header_up X-Forwarded-Port {http.request.port}

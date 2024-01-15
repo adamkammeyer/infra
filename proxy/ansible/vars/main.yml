@@ -18,11 +18,11 @@ domains:
     dns: linode
     token: LINODE_TOKEN
 
-  - name: changes.lifemeetscode.com
-    ip: 100.78.7.135
+  - name: books.kammeyer.me
+    ip_port: 100.121.31.107:8083
     cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
+    dns: cloudflare
+    token: CLOUDFLARE_TOKEN
 
   - name: chat.kammeyer.me
     ip: 100.78.7.135
@@ -30,17 +30,11 @@ domains:
     dns: linode
     token: LINODE_TOKEN
 
-  - name: cloud.lifemeetscode.com
+  - name: cloud.kammeyer.me
     ip: 100.78.7.135
     cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
-
-  - name: data.lifemeetscode.com
-    ip: 100.78.7.135
-    cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
+    dns: cloudflare
+    token: CLOUDFLARE_TOKEN
 
   - name: docs.lifemeetscode.com
     ip: 100.78.7.135
@@ -54,17 +48,17 @@ domains:
     dns: cloudflare
     token: CLOUDFLARE_TOKEN
 
-  - name: feeds.lifemeetscode.com
+  - name: feeds.kammeyer.me
     ip: 100.78.7.135
     cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
+    dns: cloudflare
+    token: CLOUDFLARE_TOKEN
 
-  - name: flow.lifemeetscode.com
+  - name: flow.kammeyer.me
     ip: 100.78.7.135
     cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
+    dns: cloudflare
+    token: CLOUDFLARE_TOKEN
 
   - name: git.lifemeetscode.com
     ip: 100.78.7.135
@@ -72,47 +66,29 @@ domains:
     dns: linode
     token: LINODE_TOKEN
 
-  - name: invoices.lifemeetscode.com
+  - name: invoices.kammeyer.me
     ip: 100.78.7.135
     cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
+    dns: cloudflare
+    token: CLOUDFLARE_TOKEN
 
-  - name: kammeyer.me
-    ip: 100.78.7.135
-    cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
-
-  - name: library.lifemeetscode.com
-    ip: 100.78.7.135
-    cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
-
-  - name: lifemeetscode.com
-    ip: 100.78.7.135
-    cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
-
-  - name: my.hotmess.kammeyer.site
+  - name: my.embracingthehotmess.com
     ip: 100.65.201.40
     cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
+    dns: cloudflare
+    token: CLOUDFLARE_TOKEN
 
-  - name: my.macmini.kammeyer.site
-    ip: 100.73.132.129
-    cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
-    
-  - name: my.vm.kammeyer.site
+  - name: my.extras.kammeyer.me
     ip: 100.78.7.135
     cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
+    dns: cloudflare
+    token: CLOUDFLARE_TOKEN
+    
+  - name: my.macmini.kammeyer.me
+    ip: 100.73.132.129
+    cert_email: akammeyer@pm.me
+    dns: cloudflare
+    token: CLOUDFLARE_TOKEN
     
   - name: office.lifemeetscode.com
     ip: 100.78.7.135
@@ -126,29 +102,23 @@ domains:
     dns: linode
     token: LINODE_TOKEN
 
-  - name: pdf.lifemeetscode.com
+  - name: paperless.kammeyer.me
     ip: 100.78.7.135
     cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
+    dns: cloudflare
+    token: CLOUDFLARE_TOKEN
 
-  - name: people.lifemeetscode.com
+  - name: people.kammeyer.me
     ip: 100.78.7.135
     cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
+    dns: cloudflare
+    token: CLOUDFLARE_TOKEN
 
-  - name: photos.lifemeetscode.com
+  - name: photos.kammeyer.me
     ip: 100.73.132.129
     cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
-
-  - name: projects.lifemeetscode.com
-    ip: 100.78.7.135
-    cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
+    dns: cloudflare
+    token: CLOUDFLARE_TOKEN
 
   - name: readlater.lifemeetscode.com
     ip: 100.78.7.135
@@ -156,11 +126,11 @@ domains:
     dns: linode
     token: LINODE_TOKEN
 
-  - name: richard.kammeyer.site
+  - name: readlater.kammeyer.me
     ip: 100.78.7.135
     cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
+    dns: cloudflare
+    token: CLOUDFLARE_TOKEN
 
   - name: www.embracingthehotmess.com
     ip: 100.65.201.40
@@ -168,16 +138,4 @@ domains:
     dns: cloudflare
     token: CLOUDFLARE_TOKEN
   
-  - name: www.kammeyer.me
-    ip: 100.78.7.135
-    cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
-
-  - name: www.lifemeetscode.com
-    ip: 100.78.7.135
-    cert_email: akammeyer@pm.me
-    dns: linode
-    token: LINODE_TOKEN
-
     
