@@ -1,14 +1,14 @@
-- name: install base software
-  dnf:
-    name:
-      - nextcloud-desktop
-    update_cache: yes
-    state: latest
-  tags:
-    - software
-    - nextcloud
-  become: yes
-  when: ansible_facts['distribution'] == "Fedora"
+#- name: install base software
+#  dnf:
+#    name:
+#      - nextcloud-desktop
+#    update_cache: yes
+#    state: latest
+#  tags:
+#    - software
+#    - nextcloud
+#  become: yes
+#  when: ansible_facts['distribution'] == "Fedora"
   
 - name: Install Nextcloud Client AppImage
   get_url:
@@ -18,7 +18,7 @@
   tags:
     - software
     - nextcloud
-  when: ansible_facts['distribution'] == "Ubuntu"
+#  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Copy Nextcloud logo for desktop file entry
   copy:
@@ -28,7 +28,7 @@
   tags:
     - software
     - nextcloud
-  when: ansible_facts['distribution'] == "Ubuntu"
+#  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Add Nextcloud desktop file entry
   template:
@@ -37,7 +37,7 @@
   tags:
     - software
     - nextcloud
-  when: ansible_facts['distribution'] == "Ubuntu"
+#  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Autostart Nextcloud
   template:
@@ -47,7 +47,7 @@
   tags:
     - software
     - nextcloud
-  when: ansible_facts['distribution'] == "Ubuntu"
+#  when: ansible_facts['distribution'] == "Ubuntu"
 
 - name: Check if Nextcloud Documents directory exists
   stat:
