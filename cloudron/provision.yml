@@ -1,5 +1,5 @@
 - hosts: all
-  remote_user: akammeyer
+  remote_user: root
   become: yes
   become_method: sudo
   vars_files:
@@ -7,16 +7,20 @@
     ansible_ssh_args: "-C -o PreferredAuthentications=password"
 
   tasks:
+    - name: Set a hostname
+      ansible.builtin.hostname:
+        name: "{{ remote_hostname }}"
+
     - name: Authorize personal SSH key for personal user
       authorized_key:
-        user: "akammeyer"
+        user: "root"
         state: present
         key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
     
     - name: Add the ansible user
       user:
         name: "ansible"
-        password: "{{ remote_user_pwd | password_hash('sha512', remote_user_pwd_salt) }}"
+        password: "{{ remote_user_pwd }}"
         shell: /bin/bash
         groups: "sudo"
         append: yes
