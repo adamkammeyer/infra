@@ -17,7 +17,7 @@
 
     - name: Create kavita container
       docker_container:
-        name: komga
+        name: kavita
         image: lscr.io/linuxserver/kavita:latest
         env:
           PUID: "1000"
