@@ -18,12 +18,12 @@
     - system
     - home
 
-- name: Create Library symlink in Home
-  file:
-    path: "/home/{{ ansible_facts['env']['USER'] }}/.comixed"
-    state: link
-    src: "/home/{{ ansible_facts['env']['USER'] }}/Library/comics/database"
-  become: yes
-  tags:
-    - system
-    - home
+#- name: Create Library symlink in Home
+#  file:
+#    path: "/home/{{ ansible_facts['env']['USER'] }}/.comixed"
+#    state: link
+#    src: "/home/{{ ansible_facts['env']['USER'] }}/Library/comics/database"
+#  become: yes
+#  tags:
+#    - system
+#    - home
