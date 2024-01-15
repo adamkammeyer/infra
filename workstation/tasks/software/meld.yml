@@ -1,6 +1,6 @@
 - name: Install the Meld package from flathub for current user
   flatpak:
-    name: org.gnome.Meld
+    name: org.gnome.meld
     state: present
     method: system
   tags:
